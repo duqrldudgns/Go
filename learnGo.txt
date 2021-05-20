@@ -210,4 +210,40 @@ func (a *Account) Deposit(amount int) {		//Account is struct
 	a.balance += amount
 }
 
+
 14. nil = NULL
+
+
+15. 에러는 항상 스스로 체크
+
+var errnoMoney = errors.New("Can't withdraw")
+
+func (a *Account) Withdraw(amount int) error {
+	if a.balance < amount {
+		return errnoMoney
+	}
+}
+
+func main() {
+err := account.Withdraw(20)
+	if err != nil {
+		log.Fatalln(err)
+		//fmt.Println(err)
+	}
+}
+
+
+16. class명 출력 시 출력 값 변경
+
+func (a Account) String() string {
+	//return "whatever you want"
+	return fmt.Sprint(a.Owner(), "'s account.\nHas: ", a.Balance())
+}
+
+func main() {
+	account := accounts.NewAccount("nico")
+	account.Deposit(10)
+	fmt.Println(account)
+}
+
+
