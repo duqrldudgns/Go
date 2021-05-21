@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/duqrldudgns/Go/accounts"
+	"github.com/duqrldudgns/Go/account/accounts"
 )
 
 func main() {

@@ -247,3 +247,19 @@ func main() {
 }
 
 
+17. map의 Method
+
+13번에서 구조체의 Method와는 다르게 map은 Method 선언 시 *을 해줄 필요가 없음
+
+// Add a word to the dictionary
+// (maps on Go are automatically using *)
+func (d Dictionary) Add(word, def string) error {
+	_, err := d.Search(word)
+	if err == errNotFound {
+		d[word] = def
+		return nil
+	} else {
+		return errWordExists
+	}
+}
+
