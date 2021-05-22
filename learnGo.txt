@@ -181,6 +181,18 @@ func main() {
 	}
 }
 
+map은 초기화 필수
+아래와 같이 하게되면 map은 nil이 되어서 값을 넣을 수 없음
+	
+	var results map[string]string
+
+	results["gello"] = "hello"
+
+따라서 두가지 방법으로 초기화 해줘야 함
+	1) var results = make(map[string]string)
+	2) var results = map[string]string{}
+
+
 
 12. struct
 
@@ -263,3 +275,30 @@ func (d Dictionary) Add(word, def string) error {
 	}
 }
 
+18. goroutines
+함수 실행 시 앞에 go 붙여주면 됨
+
+func main() {
+	go sexyCount("nico")
+	sexyCount("flynn")
+}
+
+func sexyCount(person string) {
+	for i := 0; i < 10; i++ {
+		fmt.Println(person, "is sexy", i)
+		time.Sleep(time.Second)
+	}
+}
+
+위의 코드가 실행 가능한 이유는 main이 아래카운팅 중
+메인함수는 goroutines을 기다려주지 않음
+go sexyCount("nico")
+go sexyCount("flynn")
+
+위와 같이 할 시 프로그램 종료
+
+go sexyCount("nico")
+go sexyCount("flynn")
+time.Sleep(time.Second * 5)
+
+위 코드는 5초후에 종료
