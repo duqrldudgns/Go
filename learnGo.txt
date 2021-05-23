@@ -275,7 +275,11 @@ func (d Dictionary) Add(word, def string) error {
 	}
 }
 
+
 18. goroutines
+- 병렬 프로그래밍
+- 다중 스레드
+
 함수 실행 시 앞에 go 붙여주면 됨
 
 func main() {
@@ -302,3 +306,35 @@ go sexyCount("flynn")
 time.Sleep(time.Second * 5)
 
 위 코드는 5초후에 종료
+
+
+19. Channel
+- goroutines과 goroutines, main함수 사이에 정보를 전달하기 위한 방법
+
+18번에서와는 다르게 time.sleep으로 5초간 버텨주고있지 않아도 <-c 에서 메세지를 받을 때 까지 대기하는 모습을 볼 수 있음
+
+func main() {
+	c := make(chan string)
+	people := [2]string{"nico", "flynn"}
+	for _, person := range people {
+		go isSexy(person, c)
+	}
+
+	fmt.Println("waiting for messages")
+	resultOne := <-c
+	resultTwo := <-c
+	fmt.Println("Received this message:", resultOne)
+	fmt.Println("Received this message:", resultTwo)
+}
+
+func isSexy(person string, c chan string) {
+	time.Sleep(time.Second * 5)
+	c <- person + "is sexy"
+}
+
+
+위 코드에서 <-c를 세번 출력해주게 될 경우 에러 뜸(go lang은 다 알고 있음)
+nico가 먼저 출력된다고 해서 먼저 완료된 것이 아니라 동시에 끝나되 채널을 통해 메세지가 먼저 온것 뿐
+
+
+20.
