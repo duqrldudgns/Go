@@ -21,7 +21,7 @@ type extractedJob struct {
 }
 
 // Scrape Indeed by a term
-func Scrape(term string) { //https://kr.indeed.com/%EC%B7%A8%EC%97%85?q=JTBC&l=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C
+func Scrape(term string) { //https://kr.indeed.com/%EC%B7%A8%EC%97%85?q=%EA%B0%9C%EB%B0%9C%EC%9E%90&l=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C
 	var baseURL string = "https://kr.indeed.com/%EC%B7%A8%EC%97%85?q=" + term + "&l=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C"
 	var jobs []extractedJob
 	c := make(chan []extractedJob)
@@ -69,10 +69,10 @@ func getPage(page int, url string, mainC chan<- []extractedJob) {
 
 func extractJob(card *goquery.Selection, c chan<- extractedJob) {
 	id, _ := card.Attr("data-jk")
-	title := cleanString(card.Find(".title>a").Text())
-	location := cleanString(card.Find(".sjcl").Text())
-	salary := cleanString(card.Find(".salaryText").Text())
-	summary := cleanString(card.Find(".summary").Text())
+	title := CleanString(card.Find(".title>a").Text())
+	location := CleanString(card.Find(".sjcl").Text())
+	salary := CleanString(card.Find(".salaryText").Text())
+	summary := CleanString(card.Find(".summary").Text())
 
 	c <- extractedJob{
 		id:       id,
@@ -83,7 +83,8 @@ func extractJob(card *goquery.Selection, c chan<- extractedJob) {
 	}
 }
 
-func cleanString(str string) string {
+//CleanString cleans a string
+func CleanString(str string) string {
 	return strings.Join(strings.Fields(strings.TrimSpace(str)), " ")
 }
 
