@@ -1,24 +1,17 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
+import "fmt"
 
 func main() {
-	c := make(chan string)
-	people := [5]string{"nico", "flynn", "dal", "japanguy", "larry"}
-	for _, person := range people {
-		go isSexy(person, c)
+	// len=0, cap=3 인 슬라이스
+	sliceA := make([]int, 0, 4)
+
+	// 계속 한 요소씩 추가
+	for i := 1; i <= 15; i++ {
+		sliceA = append(sliceA, i)
+		// 슬라이스 길이와 용량 확인
+		fmt.Println(len(sliceA), cap(sliceA))
 	}
 
-	for i := 0; i < len(people); i++ {
-		fmt.Print("waiting for", i)
-		fmt.Println(<-c)
-	}
-}
-
-func isSexy(person string, c chan string) {
-	time.Sleep(time.Second * 5)
-	c <- person + "is sexy"
+	fmt.Println(sliceA) // 1 부터 15 까지 숫자 출력
 }
